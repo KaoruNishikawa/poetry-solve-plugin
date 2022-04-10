@@ -5,7 +5,7 @@
 [![Test](https://img.shields.io/github/workflow/status/KaoruNishikawa/poetry-solve-plugin/Test?logo=github&label=Test&style=flat-square)](https://github.com/KaoruNishikawa/poetry-solve-plugin/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?label=License&style=flat-square)](LICENSE)
 
-Python package template.
+Poetry plug-in that temporary resolves issue on complicated version constraints handling.
 
 ## Features
 
@@ -13,25 +13,33 @@ This library provides:
 
 - something.
 
+Once after poetry/\#4695 is closed, this plug-in won't be maintained any longer.
+
 ## Usage
 
-Check the Poetry version.
-
-```shell
-$ poetry --version
-Poetry version 1.2.0b1
-```
-
-- If the version is `1.1.*`, update Poetry to `1.2.*`. The prerelease version can be installed using the following command.
+1. Check the Poetry version.
 
     ```shell
-    curl -sSL https://install.python-poetry.org | python3 - --version 1.2.0b1
+    $ poetry --version
+    Poetry version 1.2.0b1
     ```
 
-    or
+    - If the version is `1.1.*`, update to `1.2.*` using the following command.
+
+        ```shell
+        poetry self update 1.2.0b1
+        ```
+
+    - If Poetry isn't installed, run the following command.
+
+        ```shell
+        curl -sSL https://install.python-poetry.org | python3 - --version 1.2.0b1
+        ```
+
+2. Install the plug-in.
 
     ```shell
-    poetry self update 1.2.0b1
+    poetry plugin add poetry-solve-plugin
     ```
 
 ---

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "poetry-solve-plugin"
 version = "0.1.0"
-description = "Poetry plugin that temporary resolves issue on complicated version constraints handling"
+description = "Poetry plug-in that temporary resolves issue on complicated version constraints handling"
 license = "MIT"
 readme = "README.md"
 authors = ["KaoruNishikawa <k.nishikawa@a.phys.nagoya-u.ac.jp>"]
@@ -11,22 +11,23 @@ repository = "https://github.com/KaoruNishikawa/poetry-solve-plugin"
 [tool.poetry.dependencies]
 python = "^3.7"
 importlib-metadata = { version = "^4.4", python = "<3.8" }
-poetry = { version = "^1.2.0b0", allow-prereleases = true }
+poetry = { version = "^1.2.0b1", allow-prereleases = true }
 
 [tool.poetry.dev-dependencies]
-black = "^21.10b"
+black = "^22.1b"
 flake8 = "^3.8"
+httpretty = "^1.0"
 ipykernel = "^6.3"
 jupyter = "^1.0"
 m2r2 = "^0.2"
 notebook = "^6.4"
 pydata-sphinx-theme = "^0.7"
-pytest = "^5.2"
+pytest = "^6.2.5"
 pytest-mock = "^3.6.1"
 sphinx = "^4.4"
 
 [tool.poetry.plugins."poetry.application.plugin"]
-solve = "poetry_solve_plugin.plugin:SolveApplicationPlugin"
+solve = "poetry_solve_plugin.solve_plugin:SolveApplicationPlugin"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
