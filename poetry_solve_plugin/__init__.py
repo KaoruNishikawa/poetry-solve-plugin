@@ -9,5 +9,3 @@ try:
     __version__ = version("poetry_solve_plugin")
 except:
     __version__ = "0.0.0"  # Fallback.
-
-from . import plugin
