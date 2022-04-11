@@ -32,8 +32,8 @@ def _project_factory(
     fixture_dir: FixtureDirGetter,
 ) -> Poetry:
     source = fixture_dir(fixture_name)
-    pyproject_content = (source / "pyproject.toml").read_text(encode="utf-8")
-    poetry_lock_content = (source / "poetry.lock").read_text(encode="utf-8")
+    pyproject_content = (source / "pyproject.toml").read_text(encoding="utf-8")
+    poetry_lock_content = (source / "poetry.lock").read_text(encoding="utf-8")
     return project_factory(
         name="foobar",
         pyproject_content=pyproject_content,
@@ -101,7 +101,7 @@ def test_lock_check_up_to_date(
     )
     poetry_with_up_to_date_lockfile.set_locker(locker)
 
-    tester = command_tester_factory("lock", poetry=poetry_with_up_to_date_lockfile)
+    tester = command_tester_factory("solve", poetry=poetry_with_up_to_date_lockfile)
     status_code = tester.execute("--check")
     expected = "poetry.lock is consistent with pyproject.toml.\n"
     assert tester.io.fetch_output() == expected
@@ -132,7 +132,7 @@ def test_lock_no_update(
         == "1.0"
     )
 
-    tester = command_tester_factory("lock", poetry=poetry_with_old_lockfile)
+    tester = command_tester_factory("solve", poetry=poetry_with_old_lockfile)
     tester.execute("--no-update")
 
     locker = Locker(
@@ -145,11 +145,3 @@ def test_lock_no_update(
 
     for package in packages:
         assert locked_repository.find_packages(package.to_dependency())
-
-
-def test_used_solver(command_tester_factory: CommandTesterFactory):
-    tester = command_tester_factory("solve", poetry=poetry_with_outdated_lockfile)
-    status_code = tester.execute()
-
-    assert tester.io.fetch_error() == "unexpected"
-    assert status_code == 0
