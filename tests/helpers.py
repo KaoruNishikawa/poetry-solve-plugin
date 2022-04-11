@@ -3,10 +3,13 @@ from __future__ import annotations
 import os
 import shutil
 import urllib.parse
-from pathlib import Path
-from typing import Any, TYPE_CHECKING
 
-from poetry.core.masonry.utils.helpers import escape_name, escape_version
+from pathlib import Path
+from typing import TYPE_CHECKING
+from typing import Any
+
+from poetry.core.masonry.utils.helpers import escape_name
+from poetry.core.masonry.utils.helpers import escape_version
 from poetry.core.packages.package import Package
 from poetry.core.packages.utils.link import Link
 from poetry.core.toml.file import TOMLFile
@@ -20,13 +23,15 @@ from poetry.repositories import Repository
 from poetry.repositories.exceptions import PackageNotFound
 from poetry.utils._compat import WINDOWS
 
+
 if TYPE_CHECKING:
     from poetry.core.packages.dependency import Dependency
     from poetry.core.packages.types import DependencyTypes
     from poetry.core.semver.version import Version
+    from tomlkit.toml_document import TOMLDocument
+
     from poetry.installation.operations import OperationTypes
     from poetry.poetry import Poetry
-    from tomlkit.toml_document import TOMLDocument
 
 FIXTURE_PATH = Path(__file__).parent / "fixtures"
 
@@ -37,23 +42,28 @@ def get_package(name: str, version: str | Version) -> Package:
 
 def get_dependency(
     name: str,
-    constraint: str | dict[str, Any] = "*",
+    constraint: str | dict[str, Any] | None = None,
     groups: list[str] | None = None,
     optional: bool = False,
     allows_prereleases: bool = False,
 ) -> DependencyTypes:
+    if constraint is None:
+        constraint = "*"
+
     if isinstance(constraint, str):
         constraint = {"version": constraint}
+
     constraint["optional"] = optional
-    constraint["allows_prereleases"] = allows_prereleases
+    constraint["allow_prereleases"] = allows_prereleases
 
-    return Factory.create_dependency(name, constraint, groups=groups)
+    return Factory.create_dependency(name, constraint or "*", groups=groups)
 
 
-def fixture(path: str = None) -> Path:
-    if path is None:
+def fixture(path: str | None = None) -> Path:
+    if path:
+        return FIXTURE_PATH / path
+    else:
         return FIXTURE_PATH
-    return FIXTURE_PATH / path
 
 
 def copy_or_symlink(source: Path, dest: Path) -> None:
@@ -82,23 +92,30 @@ def copy_or_symlink(source: Path, dest: Path) -> None:
 
 def mock_clone(_: Any, source: str, dest: Path) -> None:
     # Checking source to determine which folder we need to copy
-    parsed = ParsedUrl(source)
+    parsed = ParsedUrl.parse(source)
 
     folder = (
-        fixture("git") / parsed.resource / parsed.pathname.lstrip("/").rstrip(".git")
+        Path(__file__).parent
+        / "fixtures"
+        / "git"
+        / parsed.resource
+        / parsed.pathname.lstrip("/").rstrip(".git")
     )
+
     copy_or_symlink(folder, dest)
 
 
 def mock_download(url: str, dest: str, **__: Any) -> None:
     parts = urllib.parse.urlparse(url)
 
-    path = fixture(parts.path.lstrip("/"))
-    copy_or_symlink(path, Path(dest))
+    fixtures = Path(__file__).parent / "fixtures"
+    fixture = fixtures / parts.path.lstrip("/")
+
+    copy_or_symlink(fixture, Path(dest))
 
 
 class TestExecutor(Executor):
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
 
         self._installs = []
@@ -134,13 +151,13 @@ class TestExecutor(Executor):
 
 
 class PoetryTestApplication(Application):
-    def __init__(self, poetry: Poetry) -> None:
+    def __init__(self, poetry: Poetry):
         super().__init__()
         self._poetry = poetry
 
     def reset_poetry(self) -> None:
         poetry = self._poetry
-        self._poetry = Factory().create_poetry(poetry.file.path.parent)
+        self._poetry = Factory().create_poetry(self._poetry.file.path.parent)
         self._poetry.set_pool(poetry.pool)
         self._poetry.set_config(poetry.config)
         self._poetry.set_locker(
@@ -149,7 +166,7 @@ class PoetryTestApplication(Application):
 
 
 class TestLocker(Locker):
-    def __init__(self, lock: str | Path, local_config: dict) -> None:
+    def __init__(self, lock: str | Path, local_config: dict):
         self._lock = TOMLFile(lock)
         self._local_config = local_config
         self._lock_data = None
@@ -164,12 +181,14 @@ class TestLocker(Locker):
     def is_locked(self) -> bool:
         return self._locked
 
-    def locked(self, is_locked: bool = True) -> "TestLocker":
+    def locked(self, is_locked: bool = True) -> TestLocker:
         self._locked = is_locked
+
         return self
 
     def mock_lock_data(self, data: dict) -> None:
         self.locked()
+
         self._lock_data = data
 
     def is_fresh(self) -> bool:
@@ -192,7 +211,7 @@ class TestRepository(Repository):
 
         return packages
 
-    def find_link_for_package(self, package: Package) -> list[Link]:
+    def find_links_for_package(self, package: Package) -> list[Link]:
         return [
             Link(
                 f"https://foo.bar/files/{escape_name(package.name)}"
