@@ -46,7 +46,7 @@ is to provide the means of early-accessing to the features under development.
 2. Install the plug-in.
 
     ```shell
-    poetry plugin add poetry-solve-plugin
+    poetry plugin add git+https://github.com/KaoruNishikawa/poetry-solve-plugin.git
     ```
 
 ---
