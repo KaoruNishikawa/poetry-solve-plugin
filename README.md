@@ -13,7 +13,14 @@ This library provides:
 
 - something.
 
-Once after poetry/\#4695 is closed, this plug-in won't be maintained any longer.
+Once after [poetry/\#4695](https://github.com/python-poetry/poetry/issues/4695) is closed, this plug-in won't be maintained any longer.
+
+## Acknowledgments
+
+The implementations are copies of the following scripts. The purpose of this repository
+is to provide the means of early-accessing to the features under development.
+
+- [radoering/poetry/puzzle/provider.py](https://github.com/radoering/poetry/blob/bafff7d9693513f3ec5b3789a4f31cd02aecf832/src/poetry/puzzle/provider.py)
 
 ## Usage
 
