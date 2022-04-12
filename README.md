@@ -1,7 +1,5 @@
 # poetry-solve-plugin
 
-[![PyPI](https://img.shields.io/pypi/v/poetry-solve-plugin.svg?label=PyPI&style=flat-square)](https://pypi.org/pypi/poetry-solve-plugin/)
-[![Python](https://img.shields.io/pypi/pyversions/poetry-solve-plugin.svg?label=Python&color=yellow&style=flat-square)](https://pypi.org/pypi/poetry-solve-plugin/)
 [![Test](https://img.shields.io/github/workflow/status/KaoruNishikawa/poetry-solve-plugin/Test?logo=github&label=Test&style=flat-square)](https://github.com/KaoruNishikawa/poetry-solve-plugin/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?label=License&style=flat-square)](LICENSE)
 
