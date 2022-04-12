@@ -9,7 +9,28 @@ Poetry plug-in that temporary resolves issue on complicated version constraints 
 
 This library provides:
 
-- something.
+- Ability to resolve duplicate multiple constraints in `pyproject.toml`, e.g.,
+
+    - Your project:
+
+        ```toml
+        [tool.poetry.dependencies]
+        pkg-a = [
+            { version = "^1.0", python = "^2.7" },
+            { version = "^2.0", python = "^3" }
+        ]
+        pkg-b = "*"
+        ```
+
+    - `pkg-b`:
+
+        ```toml
+        [tool.poetry.dependencies]
+        pkg-a = [
+            { version = "^1.0", python = "^2.7" },
+            { version = "^2.0", python = "^3" }
+        ]
+        ```
 
 Once after [poetry/\#4695](https://github.com/python-poetry/poetry/issues/4695) is closed, this plug-in won't be maintained any longer.
 
@@ -26,7 +47,7 @@ is to provide the means of early-accessing to the features under development.
 
     ```shell
     $ poetry --version
-    Poetry version 1.2.0b1
+    Poetry (version 1.2.0b1)
     ```
 
     - If the version is `1.1.*`, update to `1.2.*` using the following command.
