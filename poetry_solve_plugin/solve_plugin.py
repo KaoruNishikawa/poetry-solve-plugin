@@ -43,6 +43,4 @@ def factory():
 
 class SolveApplicationPlugin(ApplicationPlugin):
     def activate(self, application: Application) -> None:
-        print("aaaaa")
         application.command_loader.register_factory("solve", factory)
-        print("bbbbbbb")
