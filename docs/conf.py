@@ -1,12 +1,12 @@
-import PACKAGENAME
+import poetry_solve_plugin
 
 
 # -- Project information -----------------------------------------------------
 
-project = "PACKAGENAME"
-copyright = "YEAR, AUTHOR"
-author = "AUTHOR"
-release = version = PACKAGENAME.__version__
+project = "poetry-solve-plugin"
+copyright = "2022, Kaoru Nishikawa"
+author = "Kaoru Nishikawa"
+release = version = poetry_solve_plugin.__version__
 
 # -- General configuration ---------------------------------------------------
 
@@ -35,13 +35,13 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "GitHub",
-            "url": "https://github.com/USERNAME/PACKAGENAME",
+            "url": "https://github.com/KaoruNishikawa/poetry-solve-plugin",
             "icon": "fab fa-github-square",
             "type": "fontawesome",
         },
         {
             "name": "PyPI",
-            "url": "https://pypi.org/project/PACKAGENAME/",
+            "url": "https://pypi.org/project/poetry-solve-plugin/",
             "icon": "fas fa-cubes",
             "type": "fontawesome",
         },
@@ -49,7 +49,7 @@ html_theme_options = {
     "navbar_start": ["navbar-logo"],
 }
 # html_logo = "_static/logo.svg"
-html_favicon = "https://avatars.githubusercontent.com/u/20414019?s=400&u=0e47c7d5efc6cf27086c8cfcdb6fd5c757926043&v=4"  # noqa: E501
+# html_favicon = "https://avatars.githubusercontent.com/u/20414019?s=400&u=0e47c7d5efc6cf27086c8cfcdb6fd5c757926043&v=4"  # noqa: E501
 html_sidebars = {
     "**": [
         "version",
