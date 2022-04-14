@@ -68,6 +68,15 @@ is to provide the means of early-accessing to the features under development.
     poetry plugin add git+https://github.com/KaoruNishikawa/poetry-solve-plugin.git
     ```
 
+3. Run the command.
+
+    ```shell
+    poetry solve
+    ```
+
+    The behaviour should almost be the same as `poetry lock` command.  
+    For more information, hit `poetry solve -h`.
+
 ---
 
 This library is using [Semantic Versioning](https://semver.org).
