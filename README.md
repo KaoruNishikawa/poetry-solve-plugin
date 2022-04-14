@@ -3,7 +3,7 @@
 [![Test](https://img.shields.io/github/workflow/status/KaoruNishikawa/poetry-solve-plugin/Test?logo=github&label=Test&style=flat-square)](https://github.com/KaoruNishikawa/poetry-solve-plugin/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?label=License&style=flat-square)](LICENSE)
 
-Poetry plug-in that temporary resolves issue on complicated version constraints handling.
+Poetry plug-in that temporarily resolves issue on complicated version constraints handling.
 
 ## Features
 
